@@ -1,0 +1,23 @@
+.forecast-card {
+  @apply bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow;
+}
+
+.forecast-card__day {
+  @apply text-sm font-medium text-gray-500;
+}
+
+.forecast-card__icon {
+  @apply text-3xl my-3;
+}
+
+.forecast-card__high {
+  @apply font-semibold;
+}
+
+.forecast-card__low {
+  @apply text-sm text-gray-400 mt-1;
+}
+
+.forecast-card__rain {
+  @apply text-xs text-blue-500 mt-2;
+}

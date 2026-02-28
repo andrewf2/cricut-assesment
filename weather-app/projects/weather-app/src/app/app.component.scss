@@ -1,0 +1,23 @@
+.app-shell {
+  @apply min-h-screen bg-gray-50;
+}
+
+.app-header {
+  @apply bg-white shadow-sm;
+}
+
+.app-header__inner {
+  @apply max-w-4xl mx-auto px-4 py-6;
+}
+
+.app-title {
+  @apply text-3xl font-bold text-gray-900;
+}
+
+.app-subtitle {
+  @apply text-gray-500 mt-1;
+}
+
+.app-main {
+  @apply max-w-4xl mx-auto px-4 py-10;
+}

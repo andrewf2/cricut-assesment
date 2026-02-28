@@ -1,0 +1,9 @@
+@if (forecast(); as f) {
+  <div class="forecast-card">
+    <p class="forecast-card__day">{{ f.date | date:'EEE' }}</p>
+    <p class="forecast-card__icon">{{ f.weatherCode | weatherIcon }}</p>
+    <p class="forecast-card__high">{{ f.temperatureMax | temperature: unit() }}</p>
+    <p class="forecast-card__low">{{ f.temperatureMin | temperature: unit() }}</p>
+    <p class="forecast-card__rain">{{ f.precipitationProbability }}% rain</p>
+  </div>
+}
