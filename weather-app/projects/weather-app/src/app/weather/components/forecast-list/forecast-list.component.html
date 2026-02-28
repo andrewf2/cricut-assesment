@@ -1,0 +1,8 @@
+<div>
+  <h3 class="forecast-heading">7-Day Forecast</h3>
+  <div class="forecast-grid">
+    @for (day of forecast(); track day.date) {
+      <app-forecast-card [forecast]="day" [unit]="unit()" />
+    }
+  </div>
+</div>

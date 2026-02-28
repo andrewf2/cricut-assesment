@@ -1,0 +1,15 @@
+.city-list {
+  @apply mt-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden max-h-64 overflow-y-auto;
+}
+
+.city-item {
+  @apply w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors flex justify-between items-center;
+}
+
+.city-item__name {
+  @apply font-medium;
+}
+
+.city-item__region {
+  @apply text-sm text-gray-500;
+}

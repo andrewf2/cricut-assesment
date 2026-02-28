@@ -1,0 +1,33 @@
+@if (weather(); as w) {
+  <div class="weather-hero">
+    <div class="weather-hero__header">
+      <div>
+        <h2 class="weather-hero__city">{{ city()?.name }}</h2>
+        <p class="weather-hero__region">
+          {{ city()?.admin1 ? city()?.admin1 + ', ' : '' }}{{ city()?.country }}
+        </p>
+      </div>
+      <span class="weather-hero__icon">{{ w.weatherCode | weatherIcon }}</span>
+    </div>
+
+    <div class="weather-hero__temp-section">
+      <p class="weather-hero__temperature">{{ w.temperature | temperature: unit() }}</p>
+      <p class="weather-hero__condition">{{ getWeatherLabel(w.weatherCode) }}</p>
+    </div>
+
+    <div class="weather-hero__stats">
+      <div>
+        <p class="weather-hero__stat-label">Feels Like</p>
+        <p class="weather-hero__stat-value">{{ w.apparentTemperature | temperature: unit() }}</p>
+      </div>
+      <div>
+        <p class="weather-hero__stat-label">Humidity</p>
+        <p class="weather-hero__stat-value">{{ w.humidity }}%</p>
+      </div>
+      <div>
+        <p class="weather-hero__stat-label">Wind</p>
+        <p class="weather-hero__stat-value">{{ w.windSpeed }} mph</p>
+      </div>
+    </div>
+  </div>
+}

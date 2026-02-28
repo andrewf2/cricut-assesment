@@ -1,0 +1,21 @@
+<div class="search-wrapper">
+  <lib-search-input
+    [query]="store.searchQuery()"
+    (queryChange)="onSearch($event)"
+  />
+
+  @if (store.isSearching()) {
+    <div class="search-spinner-overlay">
+      <div class="search-spinner"></div>
+    </div>
+  }
+
+  @if (store.hasSearchResults()) {
+    <app-city-list
+      [cities]="store.searchResults()"
+      (citySelected)="onCitySelected($event)"
+    />
+  }
+
+  <lib-error-banner [message]="store.searchError()" />
+</div>

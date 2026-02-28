@@ -1,0 +1,35 @@
+<div class="dashboard-sections">
+  <lib-agent-chat
+    [messages]="agentMessages()"
+    [disabled]="agentLoading()"
+    (sendMessage)="onAgentQuery($event)"
+  />
+
+  @if (store.isWeatherLoading()) {
+    <lib-loading-skeleton />
+  } @else if (store.weatherError()) {
+    <lib-error-banner [message]="store.weatherError()" />
+  } @else if (store.hasWeatherData()) {
+    <div class="dashboard-weather">
+      <div class="dashboard-toolbar">
+        <button
+          (click)="onToggleUnit()"
+          class="dashboard-unit-toggle"
+        >
+          Switch to {{ store.temperatureUnit() === 'fahrenheit' ? '°C' : '°F' }}
+        </button>
+      </div>
+
+      <app-current-weather
+        [weather]="store.currentWeather()"
+        [city]="store.selectedCity()"
+        [unit]="store.temperatureUnit()"
+      />
+
+      <app-forecast-list
+        [forecast]="store.forecast()"
+        [unit]="store.temperatureUnit()"
+      />
+    </div>
+  }
+</div>

@@ -1,0 +1,43 @@
+.weather-hero {
+  @apply bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-2xl p-8 shadow-lg;
+}
+
+.weather-hero__header {
+  @apply flex justify-between items-start;
+}
+
+.weather-hero__city {
+  @apply text-2xl font-bold;
+}
+
+.weather-hero__region {
+  @apply text-blue-100 text-sm;
+}
+
+.weather-hero__icon {
+  @apply text-6xl;
+}
+
+.weather-hero__temp-section {
+  @apply mt-6;
+}
+
+.weather-hero__temperature {
+  @apply text-6xl font-light;
+}
+
+.weather-hero__condition {
+  @apply text-blue-200 mt-1;
+}
+
+.weather-hero__stats {
+  @apply mt-6 grid grid-cols-3 gap-4 text-sm;
+}
+
+.weather-hero__stat-label {
+  @apply text-blue-200;
+}
+
+.weather-hero__stat-value {
+  @apply font-semibold;
+}

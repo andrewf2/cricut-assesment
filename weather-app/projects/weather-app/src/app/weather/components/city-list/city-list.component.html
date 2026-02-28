@@ -1,0 +1,15 @@
+<ul class="city-list">
+  @for (city of cities(); track city.id) {
+    <li>
+      <button
+        (click)="citySelected.emit(city)"
+        class="city-item"
+      >
+        <span class="city-item__name">{{ city.name }}</span>
+        <span class="city-item__region">
+          {{ city.admin1 ? city.admin1 + ', ' : '' }}{{ city.country }}
+        </span>
+      </button>
+    </li>
+  }
+</ul>

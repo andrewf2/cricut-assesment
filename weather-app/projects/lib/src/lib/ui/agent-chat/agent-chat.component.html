@@ -1,0 +1,59 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <span class="chat-header__icon">🤖</span>
+    <h3 class="chat-header__title">Weather Agent</h3>
+    <span class="chat-header__subtitle">Powered by Gemini + function calling</span>
+  </div>
+
+  <div class="chat-messages">
+    @for (msg of messages(); track $index) {
+      <div [class]="msg.role === 'user' ? 'chat-message--user' : 'chat-message--agent'">
+        <div [class]="msg.role === 'user' ? 'chat-bubble--user' : 'chat-bubble--agent'">
+          @if (msg.loading) {
+            <div class="chat-loading-dots">
+              <div class="chat-loading-dot"></div>
+              <div class="chat-loading-dot" style="animation-delay: 0.1s"></div>
+              <div class="chat-loading-dot" style="animation-delay: 0.2s"></div>
+            </div>
+          } @else {
+            <p class="chat-message-text">{{ msg.text }}</p>
+            @if (msg.toolCalls && msg.toolCalls.length > 0) {
+              <div class="chat-tool-calls">
+                @for (tool of msg.toolCalls; track tool) {
+                  <span class="chat-tool-tag">🛠️ {{ tool }}</span>
+                }
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+
+    @if (messages().length === 0) {
+      <div class="chat-empty">
+        <p>Ask me anything about the weather!</p>
+        <p class="chat-empty__hint">Try: "Compare weather in NYC and LA" or "Will it rain in Seattle this week?"</p>
+      </div>
+    }
+  </div>
+
+  <div class="chat-form-wrapper">
+    <form (ngSubmit)="onSend()" class="chat-form">
+      <input
+        type="text"
+        [(ngModel)]="inputText"
+        name="chat"
+        placeholder="Ask the weather agent..."
+        class="chat-input"
+        [disabled]="disabled()"
+      />
+      <button
+        type="submit"
+        [disabled]="disabled() || inputText.trim().length === 0"
+        class="chat-send-btn"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</div>
