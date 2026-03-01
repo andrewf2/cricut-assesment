@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { WeatherStore } from '../../state/weather.store';
 import { searchCities, selectCity, clearSearch } from '../../state/weather.actions';
-import { SearchInputComponent, ErrorBannerComponent } from 'lib';
+import { SearchInputComponent, ErrorBannerComponent, SpinnerComponent } from 'lib';
 import { CityListComponent } from '../../components/city-list/city-list.component';
-import { City } from '../../models/city.model';
+import { City } from '../../city.model';
 
 @Component({
   selector: 'app-search-container',
-  imports: [SearchInputComponent, CityListComponent, ErrorBannerComponent],
+  imports: [SearchInputComponent, CityListComponent, ErrorBannerComponent, SpinnerComponent],
   templateUrl: './search-container.component.html',
   styleUrl: './search-container.component.scss',
 })

@@ -30,6 +30,8 @@ export { LoadingSkeletonComponent } from './lib/ui/loading-skeleton/loading-skel
 export { SearchInputComponent } from './lib/ui/search-input/search-input.component';
 export { AgentChatComponent } from './lib/ui/agent-chat/agent-chat.component';
 export type { AgentMessage } from './lib/ui/agent-chat/agent-chat.component';
+export { ButtonComponent } from './lib/ui/button/button.component';
+export { SpinnerComponent } from './lib/ui/spinner/spinner.component';
 
 // Pipes
 export { TemperaturePipe } from './lib/pipes/temperature.pipe';

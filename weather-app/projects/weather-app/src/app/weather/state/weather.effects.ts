@@ -1,9 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { debounceTime, switchMap, catchError, of, filter, map } from 'rxjs';
-import { Effects, ofType, withRetryBackoff } from 'lib';
-import { GeocodingApiService } from '../services/geocoding-api.service';
-import { WeatherApiService } from '../services/weather-api.service';
-import { WeatherAction, searchCities, searchCitiesSuccess, searchCitiesFailure, selectCity, loadWeatherSuccess, loadWeatherFailure } from './weather.actions';
+import { Effects, ofType, withRetryBackoff, DEFAULT_ERROR_MESSAGE } from 'lib';
+import { GeocodingApiService } from '../geocoding-api.service';
+import { WeatherApiService } from '../weather-api.service';
+import { WeatherAgentService } from '../weather-agent.service';
+import {
+  WeatherAction,
+  searchCities, searchCitiesSuccess, searchCitiesFailure,
+  selectCity, loadWeatherSuccess, loadWeatherFailure,
+  agentQuery, agentQuerySuccess, agentQueryFailure,
+} from './weather.actions';
 import { WeatherStore } from './weather.store';
 import { SEARCH_DEBOUNCE_MS, MIN_SEARCH_LENGTH, WEATHER_RETRY_CONFIG, SEARCH_FAILED_MESSAGE, WEATHER_LOAD_FAILED_MESSAGE } from './weather-state.const';
 
@@ -11,6 +17,7 @@ import { SEARCH_DEBOUNCE_MS, MIN_SEARCH_LENGTH, WEATHER_RETRY_CONFIG, SEARCH_FAI
 export class WeatherEffects extends Effects<WeatherAction> {
   private readonly geocodingApi = inject(GeocodingApiService);
   private readonly weatherApi = inject(WeatherApiService);
+  private readonly agentService = inject(WeatherAgentService);
 
   constructor(store: WeatherStore) {
     super(store);
@@ -41,5 +48,28 @@ export class WeatherEffects extends Effects<WeatherAction> {
         ),
       ),
     );
+
+    this.createEffect(
+      this.store.actions$.pipe(
+        ofType<WeatherAction, typeof agentQuery.type>(agentQuery.type),
+        switchMap((action) =>
+          this.agentService.query(action.payload, this.buildAgentContext()).pipe(
+            map((response) => agentQuerySuccess(response)),
+            catchError((err) => of(agentQueryFailure(err?.message ?? DEFAULT_ERROR_MESSAGE))),
+          ),
+        ),
+      ),
+    );
+  }
+
+  private buildAgentContext(): { city: string; latitude: number; longitude: number; unit: string } | undefined {
+    const currentCity = (this.store as WeatherStore).selectedCity();
+    if (!currentCity) return undefined;
+    return {
+      city: currentCity.name,
+      latitude: currentCity.latitude,
+      longitude: currentCity.longitude,
+      unit: (this.store as WeatherStore).temperatureUnit(),
+    };
   }
 }

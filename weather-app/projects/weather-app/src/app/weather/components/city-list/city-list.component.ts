@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { City } from '../../models/city.model';
+import { City } from '../../city.model';
 
 @Component({
   selector: 'app-city-list',

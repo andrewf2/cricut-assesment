@@ -1,11 +1,3 @@
-.search-field-wrapper {
-  @apply relative;
-}
-
 .search-field {
-  @apply w-full px-4 py-3 pl-10 text-lg rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm;
-}
-
-.search-field__icon {
-  @apply absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400;
+  width: 100%;
 }

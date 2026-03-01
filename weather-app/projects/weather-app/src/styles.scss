@@ -1,3 +1,14 @@
+@use '@angular/material' as mat;
+
+html {
+  @include mat.all-component-themes(mat.define-theme((
+    color: (
+      theme-type: light,
+      primary: mat.$blue-palette,
+    ),
+  )));
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

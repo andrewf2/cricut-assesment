@@ -15,6 +15,9 @@ export const selectWeatherError = (state: WeatherState) => state.weatherError;
 
 export const selectTemperatureUnit = (state: WeatherState) => state.temperatureUnit;
 
+export const selectAgentMessages = (state: WeatherState) => state.agentMessages;
+export const selectAgentLoading = (state: WeatherState) => state.agentLoading;
+
 export const selectIsSearching = createSelector<WeatherState, string, boolean>(
   selectSearchLoading,
   (loading) => loading === LOADING_STATE.LOADING,

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { DailyForecast } from '../../models/weather.model';
+import { DailyForecast } from '../../weather.model';
 import { TemperatureUnit } from '../../state/weather.state';
 import { DEFAULT_TEMPERATURE_UNIT } from 'lib';
 import { ForecastCardComponent } from '../forecast-card/forecast-card.component';

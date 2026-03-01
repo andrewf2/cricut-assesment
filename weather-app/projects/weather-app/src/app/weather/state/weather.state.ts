@@ -17,4 +17,7 @@ export const initialWeatherState: WeatherState = {
   weatherError: null,
 
   temperatureUnit: DEFAULT_TEMPERATURE_UNIT,
+
+  agentMessages: [],
+  agentLoading: false,
 };

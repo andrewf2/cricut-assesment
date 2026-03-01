@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
-import { CurrentWeather } from '../../models/weather.model';
-import { City } from '../../models/city.model';
+import { CurrentWeather } from '../../weather.model';
+import { City } from '../../city.model';
 import { TemperatureUnit } from '../../state/weather.state';
 import { TemperaturePipe, DEFAULT_TEMPERATURE_UNIT } from 'lib';
-import { WeatherIconPipe } from '../../pipes/weather-icon.pipe';
-import { WEATHER_CODE_MAP } from '../../models/weather-code.map';
-import { UNKNOWN_WEATHER_CODE } from '../../models/models.const';
+import { WeatherIconPipe } from '../../weather-icon.pipe';
+import { WEATHER_CODE_MAP } from '../../weather-code.map';
+import { UNKNOWN_WEATHER_CODE } from '../../models.const';
 
 @Component({
     selector: 'app-current-weather',

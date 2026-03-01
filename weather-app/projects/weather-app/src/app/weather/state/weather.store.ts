@@ -25,6 +25,9 @@ export class WeatherStore extends Store<WeatherState, WeatherAction> {
 
   readonly temperatureUnit = this.select(selectors.selectTemperatureUnit);
 
+  readonly agentMessages = this.select(selectors.selectAgentMessages);
+  readonly agentLoading = this.select(selectors.selectAgentLoading);
+
   constructor() {
     super(initialWeatherState, weatherReducer);
   }

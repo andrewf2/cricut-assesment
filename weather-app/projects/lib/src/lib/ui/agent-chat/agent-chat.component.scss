@@ -1,9 +1,9 @@
 .chat-container {
-  @apply bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden;
+  overflow: hidden;
 }
 
 .chat-header {
-  @apply px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center gap-2;
+  @apply px-4 py-3 flex items-center gap-2;
 }
 
 .chat-header__icon {
@@ -38,24 +38,12 @@
   @apply bg-gray-100 text-gray-800 rounded-2xl rounded-bl-md px-4 py-3 max-w-[80%];
 }
 
-.chat-loading-dots {
-  @apply flex items-center gap-2;
-}
-
-.chat-loading-dot {
-  @apply w-2 h-2 bg-gray-400 rounded-full animate-bounce;
-}
-
 .chat-message-text {
   @apply text-sm whitespace-pre-wrap;
 }
 
 .chat-tool-calls {
-  @apply mt-2 pt-2 border-t border-gray-200/30 flex flex-wrap gap-1;
-}
-
-.chat-tool-tag {
-  @apply text-xs bg-black/10 rounded-full px-2 py-0.5;
+  @apply mt-2 pt-2 border-t border-gray-200/30;
 }
 
 .chat-empty {
@@ -67,17 +55,13 @@
 }
 
 .chat-form-wrapper {
-  @apply p-4 border-t border-gray-200;
+  @apply p-4;
 }
 
 .chat-form {
-  @apply flex gap-2;
+  @apply flex gap-2 items-start;
 }
 
-.chat-input {
-  @apply flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-}
-
-.chat-send-btn {
-  @apply px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+.chat-input-field {
+  @apply flex-1;
 }

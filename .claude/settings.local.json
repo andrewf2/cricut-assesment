@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx ng:*)",
+      "Bash(mv:*)",
+      "Bash(npx tsc:*)",
+      "Bash(ls:*)",
+      "Bash(lsof:*)",
+      "Bash(curl:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
-import { LoadingState } from 'lib';
-import { City } from '../models/city.model';
-import { CurrentWeather, DailyForecast } from '../models/weather.model';
+import { AgentMessage, LoadingState } from 'lib';
+import { City } from '../city.model';
+import { CurrentWeather, DailyForecast } from '../weather.model';
 
 export type TemperatureUnit = 'celsius' | 'fahrenheit';
 
@@ -18,4 +18,7 @@ export interface WeatherState {
   weatherError: string | null;
 
   temperatureUnit: TemperatureUnit;
+
+  agentMessages: AgentMessage[];
+  agentLoading: boolean;
 }

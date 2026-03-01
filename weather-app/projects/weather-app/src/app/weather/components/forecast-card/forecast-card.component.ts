@@ -1,9 +1,9 @@
 import { Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DailyForecast } from '../../models/weather.model';
+import { DailyForecast } from '../../weather.model';
 import { TemperatureUnit } from '../../state/weather.state';
 import { TemperaturePipe, DEFAULT_TEMPERATURE_UNIT } from 'lib';
-import { WeatherIconPipe } from '../../pipes/weather-icon.pipe';
+import { WeatherIconPipe } from '../../weather-icon.pipe';
 
 @Component({
     selector: 'app-forecast-card',

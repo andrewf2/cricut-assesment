@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { WEATHER_CODE_MAP } from '../models/weather-code.map';
-import { UNKNOWN_WEATHER_CODE } from '../models/models.const';
+import { WEATHER_CODE_MAP } from './weather-code.map';
+import { UNKNOWN_WEATHER_CODE } from './models.const';
 
 @Pipe({ name: 'weatherIcon' })
 export class WeatherIconPipe implements PipeTransform {

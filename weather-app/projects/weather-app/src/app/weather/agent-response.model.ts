@@ -1,5 +1,5 @@
-import { City } from '../models/city.model';
-import { CurrentWeather, DailyForecast } from '../models/weather.model';
+import { City } from './city.model';
+import { CurrentWeather, DailyForecast } from './weather.model';
 
 export interface AgentResponse {
   message: string;

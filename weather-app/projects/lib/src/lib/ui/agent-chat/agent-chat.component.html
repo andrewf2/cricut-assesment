@@ -1,28 +1,24 @@
-<div class="chat-container">
-  <div class="chat-header">
-    <span class="chat-header__icon">🤖</span>
-    <h3 class="chat-header__title">Weather Agent</h3>
-    <span class="chat-header__subtitle">Powered by Gemini + function calling</span>
-  </div>
+<mat-card class="chat-container">
+  <mat-card-header class="chat-header">
+    <mat-icon class="chat-header__icon">smart_toy</mat-icon>
+    <mat-card-title class="chat-header__title">Weather Agent</mat-card-title>
+    <mat-card-subtitle class="chat-header__subtitle">Powered by Gemini + function calling</mat-card-subtitle>
+  </mat-card-header>
 
-  <div class="chat-messages">
+  <mat-card-content class="chat-messages">
     @for (msg of messages(); track $index) {
       <div [class]="msg.role === 'user' ? 'chat-message--user' : 'chat-message--agent'">
         <div [class]="msg.role === 'user' ? 'chat-bubble--user' : 'chat-bubble--agent'">
           @if (msg.loading) {
-            <div class="chat-loading-dots">
-              <div class="chat-loading-dot"></div>
-              <div class="chat-loading-dot" style="animation-delay: 0.1s"></div>
-              <div class="chat-loading-dot" style="animation-delay: 0.2s"></div>
-            </div>
+            <mat-progress-bar mode="indeterminate" />
           } @else {
             <p class="chat-message-text">{{ msg.text }}</p>
             @if (msg.toolCalls && msg.toolCalls.length > 0) {
-              <div class="chat-tool-calls">
+              <mat-chip-set class="chat-tool-calls">
                 @for (tool of msg.toolCalls; track tool) {
-                  <span class="chat-tool-tag">🛠️ {{ tool }}</span>
+                  <mat-chip>{{ tool }}</mat-chip>
                 }
-              </div>
+              </mat-chip-set>
             }
           }
         </div>
@@ -35,25 +31,27 @@
         <p class="chat-empty__hint">Try: "Compare weather in NYC and LA" or "Will it rain in Seattle this week?"</p>
       </div>
     }
-  </div>
+  </mat-card-content>
 
-  <div class="chat-form-wrapper">
+  <mat-card-actions class="chat-form-wrapper">
     <form (ngSubmit)="onSend()" class="chat-form">
-      <input
-        type="text"
-        [(ngModel)]="inputText"
-        name="chat"
-        placeholder="Ask the weather agent..."
-        class="chat-input"
-        [disabled]="disabled()"
-      />
+      <mat-form-field appearance="outline" class="chat-input-field">
+        <input
+          matInput
+          [(ngModel)]="inputText"
+          name="chat"
+          placeholder="Ask the weather agent..."
+          [disabled]="disabled()"
+        />
+      </mat-form-field>
       <button
+        mat-raised-button
+        color="primary"
         type="submit"
         [disabled]="disabled() || inputText.trim().length === 0"
-        class="chat-send-btn"
       >
-        Send
+        <mat-icon>send</mat-icon>
       </button>
     </form>
-  </div>
-</div>
+  </mat-card-actions>
+</mat-card>

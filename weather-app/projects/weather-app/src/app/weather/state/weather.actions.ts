@@ -1,6 +1,7 @@
 import { createAction } from 'lib';
-import { City } from '../models/city.model';
-import { CurrentWeather, DailyForecast } from '../models/weather.model';
+import { City } from '../city.model';
+import { AgentResponse } from '../agent-response.model';
+import { CurrentWeather, DailyForecast } from '../weather.model';
 
 export const searchCities = createAction<'[Weather] Search Cities', string>('[Weather] Search Cities');
 export const searchCitiesSuccess = createAction<'[Weather] Search Cities Success', City[]>('[Weather] Search Cities Success');
@@ -15,7 +16,9 @@ export const loadWeatherFailure = createAction<'[Weather] Load Weather Failure',
 
 export const toggleTemperatureUnit = createAction('[Weather] Toggle Temperature Unit');
 
-export const agentLoadWeather = createAction<'[Weather] Agent Load Weather', { city: City; current: CurrentWeather; forecast: DailyForecast[] }>('[Weather] Agent Load Weather');
+export const agentQuery = createAction<'[Weather] Agent Query', string>('[Weather] Agent Query');
+export const agentQuerySuccess = createAction<'[Weather] Agent Query Success', AgentResponse>('[Weather] Agent Query Success');
+export const agentQueryFailure = createAction<'[Weather] Agent Query Failure', string>('[Weather] Agent Query Failure');
 
 export type WeatherAction =
   | ReturnType<typeof searchCities>
@@ -27,4 +30,6 @@ export type WeatherAction =
   | ReturnType<typeof loadWeatherSuccess>
   | ReturnType<typeof loadWeatherFailure>
   | ReturnType<typeof toggleTemperatureUnit>
-  | ReturnType<typeof agentLoadWeather>;
+  | ReturnType<typeof agentQuery>
+  | ReturnType<typeof agentQuerySuccess>
+  | ReturnType<typeof agentQueryFailure>;

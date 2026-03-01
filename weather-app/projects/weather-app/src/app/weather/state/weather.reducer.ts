@@ -1,4 +1,4 @@
-import { createReducer, on, LOADING_STATE, TEMPERATURE_UNIT } from 'lib';
+import { createReducer, on, LOADING_STATE, TEMPERATURE_UNIT, AGENT_ROLE } from 'lib';
 import {
   searchCities,
   searchCitiesSuccess,
@@ -9,9 +9,12 @@ import {
   loadWeatherSuccess,
   loadWeatherFailure,
   toggleTemperatureUnit,
-  agentLoadWeather,
+  agentQuery,
+  agentQuerySuccess,
+  agentQueryFailure,
 } from './weather.actions';
 import { WeatherState, initialWeatherState } from './weather.state';
+import { AGENT_ERROR_PREFIX } from './weather-state.const';
 
 export const weatherReducer = createReducer<WeatherState>(
   initialWeatherState,
@@ -73,22 +76,55 @@ export const weatherReducer = createReducer<WeatherState>(
     weatherError: payload,
   })),
 
-  on(agentLoadWeather, (state, { payload }) => ({
-    ...state,
-    selectedCity: payload.city,
-    currentWeather: payload.current,
-    forecast: payload.forecast,
-    weatherLoading: LOADING_STATE.LOADED,
-    weatherError: null,
-    searchResults: [],
-    searchQuery: '',
-    searchLoading: LOADING_STATE.IDLE,
-  })),
-
   on(toggleTemperatureUnit, (state) => ({
     ...state,
     temperatureUnit: state.temperatureUnit === TEMPERATURE_UNIT.CELSIUS
       ? TEMPERATURE_UNIT.FAHRENHEIT
       : TEMPERATURE_UNIT.CELSIUS,
+  })),
+
+  on(agentQuery, (state, { payload }) => ({
+    ...state,
+    agentMessages: [
+      ...state.agentMessages,
+      { role: AGENT_ROLE.USER, text: payload },
+      { role: AGENT_ROLE.AGENT, text: '', loading: true },
+    ],
+    agentLoading: true,
+  })),
+
+  on(agentQuerySuccess, (state, { payload }) => {
+    const toolCalls = payload.toolResults.map((tr) => tr.toolName);
+    const messages = [
+      ...state.agentMessages.slice(0, -1),
+      { role: AGENT_ROLE.AGENT, text: payload.message, toolCalls },
+    ];
+
+    const hasWeatherData = !!payload.data.city && !!payload.data.current;
+
+    return {
+      ...state,
+      agentMessages: messages,
+      agentLoading: false,
+      ...(hasWeatherData ? {
+        selectedCity: payload.data.city!,
+        currentWeather: payload.data.current!,
+        forecast: Array.isArray(payload.data.forecast) ? payload.data.forecast : [],
+        weatherLoading: LOADING_STATE.LOADED,
+        weatherError: null,
+        searchResults: [],
+        searchQuery: '',
+        searchLoading: LOADING_STATE.IDLE,
+      } : {}),
+    };
+  }),
+
+  on(agentQueryFailure, (state, { payload }) => ({
+    ...state,
+    agentMessages: [
+      ...state.agentMessages.slice(0, -1),
+      { role: AGENT_ROLE.AGENT, text: `${AGENT_ERROR_PREFIX} ${payload}` },
+    ],
+    agentLoading: false,
   })),
 );

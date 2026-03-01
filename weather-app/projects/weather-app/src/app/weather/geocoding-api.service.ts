@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, shareReplay } from 'rxjs';
-import { City } from '../models/city.model';
+import { City } from './city.model';
 import { API_ENDPOINTS } from './services.const';
 import { BackendSearchResponse } from './backend-search-response.model';
 

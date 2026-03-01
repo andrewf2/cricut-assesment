@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { CurrentWeather, DailyForecast } from '../models/weather.model';
+import { CurrentWeather, DailyForecast } from './weather.model';
 import { API_ENDPOINTS } from './services.const';
 import { BackendWeatherResponse } from './backend-weather-response.model';
 

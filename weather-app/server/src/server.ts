@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateText } from 'ai';
 import { weatherTools } from './weather-tools.js';
+import { findMockCity, buildMockAgentResponse, MOCK_CURRENT_WEATHER, MOCK_FORECAST } from './mock/mock-data.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,9 +11,11 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+const MOCK_MODE = process.env.MOCK_MODE === 'true';
 const GOOGLE_API_KEY = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY;
 
-const model = google('gemini-2.5-flash', { apiKey: GOOGLE_API_KEY });
+const google = createGoogleGenerativeAI({ apiKey: GOOGLE_API_KEY });
+const model = google('gemini-2.5-flash');
 
 const SYSTEM_PROMPT = `You are a weather assistant agent. You have access to tools that interact with the Open-Meteo weather API.
 
@@ -49,6 +52,11 @@ app.post('/api/weather/agent', async (req, res) => {
 
     if (!query) {
       return res.status(400).json({ error: 'query is required' });
+    }
+
+    if (MOCK_MODE) {
+      console.log(`🤖 [MOCK] Agent request: "${query}"`);
+      return res.json(buildMockAgentResponse(query));
     }
 
     console.log(`\n🤖 Agent request: "${query}"`);
@@ -109,6 +117,11 @@ app.post('/api/weather/search', async (req, res) => {
       return res.json({ cities: [] });
     }
 
+    if (MOCK_MODE) {
+      console.log(`🔍 [MOCK] Direct search: "${query}"`);
+      return res.json({ cities: findMockCity(query) });
+    }
+
     console.log(`🔍 Direct search: "${query}"`);
 
     const result = await weatherTools.searchCities.execute(
@@ -134,6 +147,11 @@ app.post('/api/weather/current', async (req, res) => {
       longitude: number;
       unit?: 'fahrenheit' | 'celsius';
     };
+
+    if (MOCK_MODE) {
+      console.log(`🌡️  [MOCK] Direct current weather: (${latitude}, ${longitude})`);
+      return res.json({ current: MOCK_CURRENT_WEATHER, forecast: MOCK_FORECAST });
+    }
 
     console.log(`🌡️  Direct current weather: (${latitude}, ${longitude})`);
 
@@ -162,8 +180,9 @@ app.get('/health', (_req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     tools: Object.keys(weatherTools),
-    aiProvider: 'google-gemini',
-    agentEnabled: true,
+    aiProvider: MOCK_MODE ? 'mock' : 'google-gemini',
+    agentEnabled: !MOCK_MODE,
+    mockMode: MOCK_MODE,
   });
 });
 
@@ -174,8 +193,11 @@ app.listen(port, () => {
   console.log(`   POST /api/weather/current — Direct weather fetch`);
   console.log(`   GET  /health              — Health check`);
   console.log(`   🛠️  Tools: ${Object.keys(weatherTools).join(', ')}`);
-  if (!GOOGLE_API_KEY) {
+  if (MOCK_MODE) {
+    console.log('   📦 MOCK MODE — serving static responses (no API key needed)');
+  } else if (!GOOGLE_API_KEY) {
     console.warn('   ⚠️  No Google API key found — agent endpoint will fail');
+    console.warn('   💡 Tip: Run with MOCK_MODE=true to use mock data instead');
   }
 });
 

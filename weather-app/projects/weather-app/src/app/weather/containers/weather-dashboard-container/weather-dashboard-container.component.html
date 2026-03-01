@@ -1,7 +1,7 @@
 <div class="dashboard-sections">
   <lib-agent-chat
-    [messages]="agentMessages()"
-    [disabled]="agentLoading()"
+    [messages]="store.agentMessages()"
+    [disabled]="store.agentLoading()"
     (sendMessage)="onAgentQuery($event)"
   />
 
@@ -12,12 +12,9 @@
   } @else if (store.hasWeatherData()) {
     <div class="dashboard-weather">
       <div class="dashboard-toolbar">
-        <button
-          (click)="onToggleUnit()"
-          class="dashboard-unit-toggle"
-        >
+        <lib-button (clicked)="onToggleUnit()">
           Switch to {{ store.temperatureUnit() === 'fahrenheit' ? '°C' : '°F' }}
-        </button>
+        </lib-button>
       </div>
 
       <app-current-weather
