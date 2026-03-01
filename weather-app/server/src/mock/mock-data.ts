@@ -23,6 +23,14 @@ export const MOCK_CURRENT_WEATHER = {
   unit: 'fahrenheit' as const,
 };
 
+const MOCK_COMPARISON_WEATHER = {
+  temperature: 42.1,
+  apparentTemperature: 38.7,
+  humidity: 62,
+  windSpeed: 8.5,
+  weatherCode: 3,
+};
+
 export const MOCK_FORECAST = [
   { date: '2026-03-01', temperatureMax: 72, temperatureMin: 52, weatherCode: 2, precipitationProbability: 10 },
   { date: '2026-03-02', temperatureMax: 70, temperatureMin: 48, weatherCode: 3, precipitationProbability: 20 },
@@ -42,7 +50,19 @@ export function findMockCity(query: string): any[] {
   return matches.length > 0 ? matches : allCities.slice(0, 3);
 }
 
+function isCompareQuery(query: string): boolean {
+  const q = query.toLowerCase();
+  return q.includes('compare') || q.includes('vs') || q.includes('versus');
+}
+
 export function buildMockAgentResponse(query: string): any {
+  if (isCompareQuery(query)) {
+    return buildMockComparisonResponse(query);
+  }
+  return buildMockSingleCityResponse(query);
+}
+
+function buildMockSingleCityResponse(query: string): any {
   const cities = findMockCity(query);
   const city = cities[0];
 
@@ -58,6 +78,29 @@ export function buildMockAgentResponse(query: string): any {
       { toolName: 'searchCities', result: { query, cities } },
       { toolName: 'getCurrentWeather', result: MOCK_CURRENT_WEATHER },
       { toolName: 'getForecast', result: { forecast: MOCK_FORECAST, unit: 'fahrenheit' } },
+    ],
+    usage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
+  };
+}
+
+function buildMockComparisonResponse(query: string): any {
+  const allCities = MOCK_CITIES.default;
+  const city1 = allCities[0];
+  const city2 = allCities[2];
+
+  return {
+    message: `Here's a comparison: ${city1.name} is ${MOCK_CURRENT_WEATHER.temperature}°F with ${MOCK_CURRENT_WEATHER.humidity}% humidity, while ${city2.name} is ${MOCK_COMPARISON_WEATHER.temperature}°F with ${MOCK_COMPARISON_WEATHER.humidity}% humidity. ${city1.name} is warmer by about ${(MOCK_CURRENT_WEATHER.temperature - MOCK_COMPARISON_WEATHER.temperature).toFixed(0)}°F.`,
+    data: {
+      comparison: {
+        location1: { name: city1.name, ...MOCK_CURRENT_WEATHER },
+        location2: { name: city2.name, ...MOCK_COMPARISON_WEATHER },
+        unit: 'fahrenheit',
+      },
+    },
+    toolResults: [
+      { toolName: 'searchCities', result: { query: city1.name, cities: [city1] } },
+      { toolName: 'searchCities', result: { query: city2.name, cities: [city2] } },
+      { toolName: 'compareWeather', result: { location1: city1.name, location2: city2.name } },
     ],
     usage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
   };

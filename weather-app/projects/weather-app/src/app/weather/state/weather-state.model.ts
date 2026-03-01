@@ -17,6 +17,9 @@ export interface WeatherState {
   weatherLoading: LoadingState;
   weatherError: string | null;
 
+  comparisonCity: City | null;
+  comparisonWeather: CurrentWeather | null;
+
   temperatureUnit: TemperatureUnit;
 
   agentMessages: AgentMessage[];

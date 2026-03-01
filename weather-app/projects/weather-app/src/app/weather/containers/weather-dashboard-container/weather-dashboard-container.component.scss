@@ -1,11 +1,15 @@
 .dashboard-sections {
-  @apply space-y-10;
+  @apply space-y-12;
 }
 
 .dashboard-weather {
-  @apply space-y-8;
+  @apply space-y-10;
 }
 
 .dashboard-toolbar {
-  @apply flex justify-end;
+  @apply flex justify-end mb-2;
+}
+
+.dashboard-comparison {
+  @apply grid grid-cols-2 gap-6;
 }

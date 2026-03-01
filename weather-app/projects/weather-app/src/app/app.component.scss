@@ -1,9 +1,10 @@
 .app-shell {
-  @apply min-h-screen bg-gray-50;
+  @apply min-h-screen bg-slate-50;
 }
 
 .app-header {
-  @apply bg-white shadow-sm;
+  background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%);
+  @apply shadow-md;
 }
 
 .app-header__inner {
@@ -11,11 +12,18 @@
 }
 
 .app-title {
-  @apply text-3xl font-bold text-gray-900;
+  @apply text-3xl font-bold text-white flex items-center gap-2;
+
+  &__icon {
+    @apply text-white/90;
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .app-subtitle {
-  @apply text-gray-500 mt-1;
+  @apply text-blue-100 mt-1;
 }
 
 .app-main {

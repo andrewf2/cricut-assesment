@@ -16,6 +16,9 @@ export const initialWeatherState: WeatherState = {
   weatherLoading: LOADING_STATE.IDLE,
   weatherError: null,
 
+  comparisonCity: null,
+  comparisonWeather: null,
+
   temperatureUnit: DEFAULT_TEMPERATURE_UNIT,
 
   agentMessages: [],

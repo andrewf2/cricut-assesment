@@ -23,6 +23,9 @@ export class WeatherStore extends Store<WeatherState, WeatherAction> {
   readonly isWeatherLoading = this.select(selectors.selectIsWeatherLoading);
   readonly hasWeatherData = this.select(selectors.selectHasWeatherData);
 
+  readonly comparisonCity = this.select(selectors.selectComparisonCity);
+  readonly comparisonWeather = this.select(selectors.selectComparisonWeather);
+
   readonly temperatureUnit = this.select(selectors.selectTemperatureUnit);
 
   readonly agentMessages = this.select(selectors.selectAgentMessages);

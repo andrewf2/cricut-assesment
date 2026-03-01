@@ -1,5 +1,6 @@
 .weather-hero {
-  @apply bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-2xl p-8 shadow-lg;
+  background: linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%);
+  @apply text-white rounded-2xl p-8 shadow-lg;
 }
 
 .weather-hero__header {
@@ -7,15 +8,15 @@
 }
 
 .weather-hero__city {
-  @apply text-2xl font-bold;
+  @apply text-3xl font-bold;
 }
 
 .weather-hero__region {
-  @apply text-blue-100 text-sm;
+  @apply text-blue-100 text-sm mt-1;
 }
 
 .weather-hero__icon {
-  @apply text-6xl;
+  @apply text-7xl;
 }
 
 .weather-hero__temp-section {
@@ -32,6 +33,10 @@
 
 .weather-hero__stats {
   @apply mt-6 grid grid-cols-3 gap-4 text-sm;
+
+  > div {
+    @apply border-r border-white/20 last:border-r-0 pl-2 first:pl-0;
+  }
 }
 
 .weather-hero__stat-label {
@@ -39,5 +44,5 @@
 }
 
 .weather-hero__stat-value {
-  @apply font-semibold;
+  @apply font-semibold text-lg;
 }

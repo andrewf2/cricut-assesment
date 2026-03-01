@@ -1,32 +1,49 @@
 <div class="dashboard-sections">
   <lib-agent-chat
-    [messages]="store.agentMessages()"
-    [disabled]="store.agentLoading()"
+    [messages]="agentMessages()"
+    [disabled]="agentLoading()"
     (sendMessage)="onAgentQuery($event)"
   />
 
-  @if (store.isWeatherLoading()) {
+  @if (isWeatherLoading()) {
     <lib-loading-skeleton />
-  } @else if (store.weatherError()) {
-    <lib-error-banner [message]="store.weatherError()" />
-  } @else if (store.hasWeatherData()) {
+  } @else if (weatherError()) {
+    <lib-error-banner [message]="weatherError()" />
+  } @else if (hasWeatherData()) {
     <div class="dashboard-weather">
       <div class="dashboard-toolbar">
         <lib-button (clicked)="onToggleUnit()">
-          Switch to {{ store.temperatureUnit() === 'fahrenheit' ? '°C' : '°F' }}
+          Switch to {{ temperatureUnit() === 'fahrenheit' ? '°C' : '°F' }}
         </lib-button>
       </div>
 
-      <app-current-weather
-        [weather]="store.currentWeather()"
-        [city]="store.selectedCity()"
-        [unit]="store.temperatureUnit()"
-      />
+      @if (comparisonWeather()) {
+        <div class="dashboard-comparison">
+          <app-current-weather
+            [weather]="currentWeather()"
+            [city]="selectedCity()"
+            [unit]="temperatureUnit()"
+          />
+          <app-current-weather
+            [weather]="comparisonWeather()"
+            [city]="comparisonCity()"
+            [unit]="temperatureUnit()"
+          />
+        </div>
+      } @else {
+        <app-current-weather
+          [weather]="currentWeather()"
+          [city]="selectedCity()"
+          [unit]="temperatureUnit()"
+        />
+      }
 
-      <app-forecast-list
-        [forecast]="store.forecast()"
-        [unit]="store.temperatureUnit()"
-      />
+      @if (forecast().length > 0) {
+        <app-forecast-list
+          [forecast]="forecast()"
+          [unit]="temperatureUnit()"
+        />
+      }
     </div>
   }
 </div>

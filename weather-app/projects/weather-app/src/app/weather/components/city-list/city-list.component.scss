@@ -1,9 +1,11 @@
 .city-list {
-  @apply mt-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden max-h-64 overflow-y-auto;
+  @apply mt-2 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden max-h-64 overflow-y-auto
+         divide-y divide-gray-100;
 }
 
 .city-item {
-  @apply w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors flex justify-between items-center;
+  @apply w-full text-left px-4 py-3 hover:bg-blue-50 transition-all flex justify-between items-center
+         border-l-3 border-l-transparent hover:border-l-blue-500;
 }
 
 .city-item__name {

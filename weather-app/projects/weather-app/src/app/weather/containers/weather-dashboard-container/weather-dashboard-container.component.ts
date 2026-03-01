@@ -12,7 +12,19 @@ import { ErrorBannerComponent, LoadingSkeletonComponent, AgentChatComponent, But
     styleUrl: './weather-dashboard-container.component.scss'
 })
 export class WeatherDashboardContainerComponent {
-  readonly store = inject(WeatherStore);
+  private readonly store = inject(WeatherStore);
+
+  readonly agentMessages = this.store.agentMessages;
+  readonly agentLoading = this.store.agentLoading;
+  readonly isWeatherLoading = this.store.isWeatherLoading;
+  readonly weatherError = this.store.weatherError;
+  readonly hasWeatherData = this.store.hasWeatherData;
+  readonly currentWeather = this.store.currentWeather;
+  readonly selectedCity = this.store.selectedCity;
+  readonly temperatureUnit = this.store.temperatureUnit;
+  readonly forecast = this.store.forecast;
+  readonly comparisonCity = this.store.comparisonCity;
+  readonly comparisonWeather = this.store.comparisonWeather;
 
   onToggleUnit(): void {
     this.store.dispatch(toggleTemperatureUnit());

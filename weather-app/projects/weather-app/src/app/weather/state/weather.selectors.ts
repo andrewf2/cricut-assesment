@@ -13,6 +13,9 @@ export const selectForecast = (state: WeatherState) => state.forecast;
 export const selectWeatherLoading = (state: WeatherState) => state.weatherLoading;
 export const selectWeatherError = (state: WeatherState) => state.weatherError;
 
+export const selectComparisonCity = (state: WeatherState) => state.comparisonCity;
+export const selectComparisonWeather = (state: WeatherState) => state.comparisonWeather;
+
 export const selectTemperatureUnit = (state: WeatherState) => state.temperatureUnit;
 
 export const selectAgentMessages = (state: WeatherState) => state.agentMessages;
@@ -23,10 +26,9 @@ export const selectIsSearching = createSelector<WeatherState, string, boolean>(
   (loading) => loading === LOADING_STATE.LOADING,
 );
 
-export const selectHasWeatherData = createSelector<WeatherState, ReturnType<typeof selectCurrentWeather>, ReturnType<typeof selectForecast>, boolean>(
+export const selectHasWeatherData = createSelector<WeatherState, ReturnType<typeof selectCurrentWeather>, boolean>(
   selectCurrentWeather,
-  selectForecast,
-  (current, forecast) => current !== null && forecast.length > 0,
+  (current) => current !== null,
 );
 
 export const selectHasSearchResults = createSelector<WeatherState, ReturnType<typeof selectSearchResults>, string, boolean>(

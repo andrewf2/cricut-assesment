@@ -15,6 +15,8 @@ import {
 } from './weather.actions';
 import { WeatherState, initialWeatherState } from './weather.state';
 import { AGENT_ERROR_PREFIX } from './weather-state.const';
+import { AgentResponse } from '../agent-response.model';
+import { extractWeatherFromAgentData } from './agent-data-extractor';
 
 export const weatherReducer = createReducer<WeatherState>(
   initialWeatherState,
@@ -67,6 +69,8 @@ export const weatherReducer = createReducer<WeatherState>(
     ...state,
     currentWeather: payload.current,
     forecast: payload.forecast,
+    comparisonCity: null,
+    comparisonWeather: null,
     weatherLoading: LOADING_STATE.LOADED,
   })),
 
@@ -91,6 +95,7 @@ export const weatherReducer = createReducer<WeatherState>(
       { role: AGENT_ROLE.AGENT, text: '', loading: true },
     ],
     agentLoading: true,
+    weatherLoading: LOADING_STATE.LOADING,
   })),
 
   on(agentQuerySuccess, (state, { payload }) => {
@@ -99,23 +104,13 @@ export const weatherReducer = createReducer<WeatherState>(
       ...state.agentMessages.slice(0, -1),
       { role: AGENT_ROLE.AGENT, text: payload.message, toolCalls },
     ];
-
-    const hasWeatherData = !!payload.data.city && !!payload.data.current;
+    const weatherUpdate = extractWeatherFromAgentData(payload.data);
 
     return {
       ...state,
       agentMessages: messages,
       agentLoading: false,
-      ...(hasWeatherData ? {
-        selectedCity: payload.data.city!,
-        currentWeather: payload.data.current!,
-        forecast: Array.isArray(payload.data.forecast) ? payload.data.forecast : [],
-        weatherLoading: LOADING_STATE.LOADED,
-        weatherError: null,
-        searchResults: [],
-        searchQuery: '',
-        searchLoading: LOADING_STATE.IDLE,
-      } : {}),
+      ...weatherUpdate,
     };
   }),
 
