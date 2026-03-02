@@ -104,7 +104,7 @@ export const weatherReducer = createReducer<WeatherState>(
       ...state.agentMessages.slice(0, -1),
       { role: AGENT_ROLE.AGENT, text: payload.message, toolCalls },
     ];
-    const weatherUpdate = extractWeatherFromAgentData(payload.data);
+    const weatherUpdate = extractWeatherFromAgentData(payload.data, payload.toolResults);
 
     return {
       ...state,

@@ -21,17 +21,38 @@ const CLEAR_SEARCH: Pick<WeatherStateSlice, 'searchResults' | 'searchQuery' | 's
 /**
  * Extracts displayable weather state from an agent response.
  * Handles both single-city and comparison response shapes.
+ * Falls back to raw toolResults when Gemini's JSON text is incomplete.
  */
 export function extractWeatherFromAgentData(
   data: AgentResponse['data'],
+  toolResults?: AgentResponse['toolResults'],
 ): Partial<WeatherStateSlice> {
   if (data.city && data.current) {
     return buildSingleCityUpdate(data.city, data.current, data.forecast);
   }
-  if (data.comparison?.['location1']) {
-    return buildComparisonUpdate(data.comparison);
+
+  const comparison = resolveComparison(data, toolResults);
+  if (comparison?.['location1']) {
+    return buildComparisonUpdate(comparison);
   }
   return {};
+}
+
+function resolveComparison(
+  data: AgentResponse['data'],
+  toolResults?: AgentResponse['toolResults'],
+): Record<string, any> | undefined {
+  const fromData = data.comparison;
+  if (fromData?.['location1']?.['temperature'] !== undefined) {
+    return fromData;
+  }
+
+  const toolResult = toolResults?.find((tr) => tr.toolName === 'compareWeather');
+  if (toolResult?.result?.['location1']) {
+    return toolResult.result;
+  }
+
+  return fromData;
 }
 
 function buildSingleCityUpdate(
