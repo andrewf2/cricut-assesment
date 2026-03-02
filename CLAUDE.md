@@ -38,3 +38,4 @@ cd weather-app/server && npm run dev:mock
 - Features use a **flat directory structure** — models, services, pipes, and consts live at the feature root (not in sub-folders). Only `state/`, `containers/`, and `components/` remain as folders.
 - The shared library (`lib`) must be built before the app.
 - Server supports `MOCK_MODE=true` for running without a Gemini API key.
+- **No magic strings** — all string literals used as keys, tool names, or identifiers must be extracted to named constants in the appropriate `*.const.ts` file. Use `as const` objects for related groups of constants.
